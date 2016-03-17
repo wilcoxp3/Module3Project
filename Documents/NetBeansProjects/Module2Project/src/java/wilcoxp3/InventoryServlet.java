@@ -1,5 +1,13 @@
 package wilcoxp3;
 
+/*
+ * Paul Wilcox 
+ * Module 2 Project 
+ * This application allows the user to manage an
+ * inventory of products. The user may add view a product's information, add a
+ * new product to the inventory, update information for an existing product, or
+ * delete a product from the inventory.
+ */
 import java.io.IOException;
 import java.math.BigDecimal;
 import javax.servlet.ServletException;

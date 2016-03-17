@@ -2,7 +2,7 @@ package wilcoxp3;
 
 /*
  * Paul Wilcox 
- * Module 1 Project 
+ * Module 2 Project 
  * This application allows the user to manage an
  * inventory of products. The user may add view a product's information, add a
  * new product to the inventory, update information for an existing product, or
