@@ -38,9 +38,10 @@ public class InventoryServlet extends HttpServlet {
     }
 
     /**
-     * This method adds a new product to the inventory with the data taken from
-     * inventory.jsp. It then calls the doGet method in order to
-     * display the saved products upon form submittal.
+     * This method adds a new product, edits an existing product, or deletes a
+     * product from the inventory with the data taken from inventory.jsp. It
+     * then calls the doGet method in order to display the saved products upon
+     * form submittal.
      *
      * @param req
      * @param resp
@@ -55,9 +56,23 @@ public class InventoryServlet extends HttpServlet {
         String upc = req.getParameter("upc");
         String shortDetails = req.getParameter("shortDetails");
         String longDetails = req.getParameter("longDetails");
-        BigDecimal price = new BigDecimal(req.getParameter("price"));
-        Integer stock = new Integer(req.getParameter("stock"));
-        
+        String priceInput = req.getParameter("price");
+        String stockInput = req.getParameter("stock");
+
+        try {
+            BigDecimal price = new BigDecimal(priceInput);
+        } catch (NumberFormatException e) {
+            priceInput = "-999";
+        }
+        try {
+            Integer stock = new Integer(stockInput);
+        } catch (NumberFormatException e) {
+            stockInput = "-999";
+        }
+
+        BigDecimal price = new BigDecimal(priceInput);
+        Integer stock = new Integer(stockInput);
+
         switch (req.getParameter("button")) {
             case "Create":
                 p.setUpc(upc);

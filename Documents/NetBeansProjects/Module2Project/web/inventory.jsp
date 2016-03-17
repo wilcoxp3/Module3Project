@@ -16,6 +16,7 @@
     <body>
         <h1>Inventory Manager</h1>
         <h2>View, edit, and delete inventory below.</h2>
+        <p>A price or stock of -999 indicates invalid input.</p>
         <c:forEach var="p" items="${inventoryManager.productList}">
             <div>
                 <form action="inventory" method="POST">
