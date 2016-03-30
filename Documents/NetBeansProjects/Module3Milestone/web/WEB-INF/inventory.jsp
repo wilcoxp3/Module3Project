@@ -4,6 +4,9 @@
     Author     : Paul
 --%>
 
+<%@page import="wilcoxp3.DataAccessObjectFactory"%>
+<%@page import="wilcoxp3.DataAccessObject"%>
+<%@page import="wilcoxp3.Product"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -11,13 +14,19 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Inventory Manager</title>
-        <jsp:useBean id="inventoryManager" scope="application" class="wilcoxp3.InventoryManager"/>
+        <%
+            DataAccessObject<Product> productDao = (DataAccessObject<Product>) this.getServletContext().getAttribute("productBean");
+            if (productDao == null) {
+                productDao = DataAccessObjectFactory.getProductDao();
+                this.getServletContext().setAttribute("productBean", productDao);
+            }  
+        %>
     </head>
     <body>
         <h1>Inventory Manager</h1>
         <h2>View, edit, and delete inventory below.</h2>
         <p>A price or stock of -999 indicates invalid input.</p>
-        <c:forEach var="p" items="${inventoryManager.productList}">
+        <c:forEach var="p" items="${productBean.readAll}">
             <div>
                 <form action="inventory" method="POST">
                     <label>

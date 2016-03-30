@@ -10,5 +10,16 @@ package wilcoxp3;
  * @author Paul
  */
 public class DataAccessObjectFactory {
-    
+
+    DataAccessObjectFactory() {
+    }
+
+    public static DataAccessObject<User> getUserDao() {
+        return new FileUserDao();
+    }
+
+    public static DataAccessObject<Product> getProductDao() {
+        return new FileProductDao();
+    }
+
 }

@@ -60,7 +60,7 @@ public class InventoryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         Product p = new Product();
-        InventoryManager invMan = new InventoryManager();
+        DataAccessObject<Product> productDao = DataAccessObjectFactory.getProductDao();
         String upc = req.getParameter("upc");
         String shortDetails = req.getParameter("shortDetails");
         String longDetails = req.getParameter("longDetails");
@@ -88,7 +88,7 @@ public class InventoryServlet extends HttpServlet {
                 p.setLongDetails(longDetails);
                 p.setPrice(price);
                 p.setStock(stock);
-                invMan.addProduct(p);
+                productDao.create(p);
                 break;
             case "Edit":
                 p.setUpc(upc);
@@ -96,10 +96,10 @@ public class InventoryServlet extends HttpServlet {
                 p.setLongDetails(longDetails);
                 p.setPrice(price);
                 p.setStock(stock);
-                invMan.updateProduct(p);
+                productDao.update(p);
                 break;
             case "Delete":
-                invMan.removeProduct(upc);
+                productDao.delete(upc);
                 break;
         }
 
