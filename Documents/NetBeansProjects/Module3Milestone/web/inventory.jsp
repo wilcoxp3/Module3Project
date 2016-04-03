@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Inventory Manager</title>
+        <title>Inventory</title>
         <%
             DataAccessObject<Product> productDao = (DataAccessObject<Product>) this.getServletContext().getAttribute("productBean");
             if (productDao == null) {
@@ -23,10 +23,10 @@
         %>
     </head>
     <body>
-        <h1>Inventory Manager</h1>
+        <h1>Inventory</h1>
         <h2>View, edit, and delete inventory below.</h2>
         <p>A price or stock of -999 indicates invalid input.</p>
-        <c:forEach var="p" items="${productBean.readAll}">
+        <c:forEach var="p" items="${productBean.readAll()}">
             <div>
                 <form action="inventory" method="POST">
                     <label>

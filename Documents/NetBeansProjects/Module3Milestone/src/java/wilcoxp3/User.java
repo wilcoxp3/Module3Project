@@ -14,8 +14,8 @@ import java.util.Set;
  */
 public class User implements Serializable {
 
-    public String ADMINISTRATOR = "ADMIN";
-    public String INVENTORY_MANAGER = "INV_MAN";
+    public static String ADMINISTRATOR = "ADMIN";
+    public static String INVENTORY_MANAGER = "INV_MAN";
 
     private String username;
     private String password;
@@ -45,11 +45,11 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public Boolean isAdministrator() {
+    public boolean isAdministrator() {
         return this.getRoles().contains(ADMINISTRATOR);
     }
 
-    public Boolean isInventoryManager() {
+    public boolean isInventoryManager() {
         return this.getRoles().contains(INVENTORY_MANAGER)
                 || this.isAdministrator();
     }

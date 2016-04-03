@@ -6,7 +6,6 @@
 package wilcoxp3;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import javax.servlet.ServletException;
@@ -20,7 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author Paul
  */
 @WebServlet("/users")
-public class UserServlet extends HttpServlet{
+public class UserServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -28,33 +28,34 @@ public class UserServlet extends HttpServlet{
         DataAccessObject<User> userDao = DataAccessObjectFactory.getUserDao();
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+        String admin = req.getParameter("isAdministrator");
+        String invMan = req.getParameter("isInventoryManager");
         Set<String> roles = new HashSet<>();
-
-
-
+        if (admin != null) {
+            roles.add(User.ADMINISTRATOR);
+        }
+        if (invMan != null) {
+            roles.add(User.INVENTORY_MANAGER);
+        }
 
         switch (req.getParameter("button")) {
             case "Create":
-                p.setUpc(upc);
-                p.setShortDetails(shortDetails);
-                p.setLongDetails(longDetails);
-                p.setPrice(price);
-                p.setStock(stock);
-                productDao.create(p);
+                u.setUsername(username);
+                u.setPassword(password);
+                u.setRoles(roles);
+                userDao.create(u);
                 break;
             case "Edit":
-                p.setUpc(upc);
-                p.setShortDetails(shortDetails);
-                p.setLongDetails(longDetails);
-                p.setPrice(price);
-                p.setStock(stock);
-                productDao.update(p);
+                u.setUsername(username);
+                u.setPassword(password);
+                u.setRoles(roles);
+                userDao.update(u);
                 break;
             case "Delete":
-                productDao.delete(upc);
+                userDao.delete(username);
                 break;
         }
 
-        resp.sendRedirect("inventory.jsp");
+        resp.sendRedirect("users.jsp");
     }
 }
