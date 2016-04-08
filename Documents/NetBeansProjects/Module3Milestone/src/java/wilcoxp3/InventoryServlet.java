@@ -26,23 +26,16 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/inventory")
 public class InventoryServlet extends HttpServlet {
 
-    /**
-     * This method displays the list of all saved products in the inventory.
-     *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
-     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        resp.getWriter().println("<!DOCTYPE html><html><head></head><body>");
-        InventoryManager invMan = new InventoryManager();
-        for (Product p : invMan.getProductList()) {
-            resp.getWriter().println(p.toString());
+        
+        DataAccessObject<User> userDao = DataAccessObjectFactory.getUserDao();
+        String currentUser = req.getParameter("currentUser");
+        
+        if (req.getParameter("currentUser") == null
+                || !userDao.read(currentUser).isInventoryManager()) {
+            resp.sendRedirect("login.jsp");
         }
-        resp.getWriter().println("</body></html>");
     }
 
     /**
@@ -100,6 +93,12 @@ public class InventoryServlet extends HttpServlet {
                 break;
             case "Delete":
                 productDao.delete(upc);
+                break;
+            case "Manage Users":
+                resp.sendRedirect("users.jsp");
+                break;
+            case "Logout":
+                resp.sendRedirect("login.jsp?logout=true");
                 break;
         }
 
