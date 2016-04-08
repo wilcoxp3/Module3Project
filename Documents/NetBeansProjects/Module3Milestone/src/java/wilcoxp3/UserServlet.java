@@ -22,6 +22,18 @@ import javax.servlet.http.HttpServletResponse;
 public class UserServlet extends HttpServlet {
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
+        DataAccessObject<User> userDao = DataAccessObjectFactory.getUserDao();
+        String currentUser = req.getParameter("currentUser");
+        
+        if (req.getParameter("currentUser") == null
+                || !userDao.read(currentUser).isAdministrator()) {
+            resp.sendRedirect("login.jsp");
+        }
+    }
+    
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         User u = new User();
@@ -53,6 +65,12 @@ public class UserServlet extends HttpServlet {
                 break;
             case "Delete":
                 userDao.delete(username);
+                break;
+            case "Manage Inventory":
+                resp.sendRedirect("inventory.jsp");
+                break;
+            case "Logout":
+                resp.sendRedirect("login.jsp?logout=true");
                 break;
         }
 

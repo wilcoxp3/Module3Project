@@ -76,6 +76,13 @@
                 </div>
             </form>
         </div>
+        <form>
+            <c:set var="currentUser" value="${param.currentUser}"></c:set>
+            <c:if test="${currentUser != null && userBean.read(currentUser).isInventoryManager()}">
+                <input type="submit" value="Manage Inventory" name="button" />
+            </c:if>
+            <input type="submit" value="Logout" name="button" />
+        </form>
     </body>
 </html>
 

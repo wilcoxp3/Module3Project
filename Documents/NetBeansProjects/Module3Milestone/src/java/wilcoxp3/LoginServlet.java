@@ -27,26 +27,30 @@ public class LoginServlet extends HttpServlet {
         DataAccessObject<User> userDao = DataAccessObjectFactory.getUserDao();
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+        boolean failed = true;
 
-        if (username != null && password != null) {
+        if (!username.equalsIgnoreCase("")
+                && !password.equals("")) {
             for (User u : userDao.readAll()) {
                 if (username.equalsIgnoreCase(u.getUsername())
                         && password.equals(u.getPassword())) {
                     httpSession.setAttribute("currentUser", u);
                     resp.sendRedirect("inventory.jsp");
+                    failed = false;
                 }
             }
         } else if (req.getParameter("logout").equals("true")) {
             httpSession.setAttribute("currentUser", null);
-            resp.sendRedirect("login.jsp");
-        } else {
+            failed = false;
+        }
+        if (failed == true) {
             resp.sendRedirect("login.jsp?failed=true");
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("users.jsp");
+        resp.sendRedirect("login.jsp");
     }
 
 }

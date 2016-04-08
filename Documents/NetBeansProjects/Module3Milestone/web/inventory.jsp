@@ -4,6 +4,7 @@
     Author     : Paul
 --%>
 
+<%@page import="wilcoxp3.User"%>
 <%@page import="wilcoxp3.DataAccessObjectFactory"%>
 <%@page import="wilcoxp3.DataAccessObject"%>
 <%@page import="wilcoxp3.Product"%>
@@ -19,7 +20,13 @@
             if (productDao == null) {
                 productDao = DataAccessObjectFactory.getProductDao();
                 this.getServletContext().setAttribute("productBean", productDao);
-            }  
+            }
+            
+            DataAccessObject<User> userDao = (DataAccessObject<User>) this.getServletContext().getAttribute("userBean");
+            if (userDao == null) {
+                userDao = DataAccessObjectFactory.getUserDao();
+                this.getServletContext().setAttribute("userBean", userDao);
+            }
         %>
     </head>
     <body>
@@ -84,5 +91,12 @@
                 </div>
             </form>
         </div>
+        <form action="inventory" method="post">
+            <c:set var="currentUser" value="${param.currentUser}"></c:set>
+            <c:if test="${currentUser != null && userBean.read(currentUser).isAdministrator()}">
+                <input type="submit" value="Manage Users" name="button" />
+            </c:if>
+            <input type="submit" value="Logout" name="button" />
+        </form>
     </body>
 </html>
