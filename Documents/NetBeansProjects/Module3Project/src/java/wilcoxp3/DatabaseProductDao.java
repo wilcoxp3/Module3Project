@@ -20,8 +20,7 @@ import java.util.logging.Logger;
  * @author Paul
  */
 public class DatabaseProductDao implements DataAccessObject<Product> {
-    
-    private boolean exists;
+
     Connection con;
 
     DatabaseProductDao() {
@@ -32,8 +31,7 @@ public class DatabaseProductDao implements DataAccessObject<Product> {
         }
         try {
             con = DriverManager.getConnection("jdbc:derby://localhost:1527/store;create=true");
-            exists = con.getMetaData().getTables(null, null, "PRODUCT", null).next();
-            if (!exists) {
+            if (!con.getMetaData().getTables(null, null, "PRODUCT", null).next()) {
                 String createDml = "CREATE TABLE PRODUCT (UPC VARCHAR(25), "
                         + "SHORT_DETAILS VARCHAR(50), LONG_DETAILS VARCHAR(5000), "
                         + "PRICE DECIMAL(10,2), STOCK INTEGER, PRIMARY KEY (UPC))";
@@ -60,6 +58,7 @@ public class DatabaseProductDao implements DataAccessObject<Product> {
                 product.setLongDetails(results.getString("LONG_DETAILS"));
                 product.setPrice(results.getBigDecimal("PRICE"));
                 product.setStock(results.getInt("STOCK"));
+                products.add(product);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseProductDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,7 +96,7 @@ public class DatabaseProductDao implements DataAccessObject<Product> {
             try {
                 PreparedStatement createStatement = con.prepareStatement(
                         "INSERT INTO PRODUCT (UPC, SHORT_DETAILS, LONG_DETAILS, "
-                                + "PRICE, STOCK) VALUES (?,?,?,?,?)");
+                        + "PRICE, STOCK) VALUES (?,?,?,?,?)");
                 createStatement.setString(1, product.getUpc());
                 createStatement.setString(2, product.getShortDetails());
                 createStatement.setString(3, product.getLongDetails());
@@ -116,7 +115,7 @@ public class DatabaseProductDao implements DataAccessObject<Product> {
             try {
                 PreparedStatement updateStatement = con.prepareStatement(
                         "UPDATE PRODUCT SET SHORT_DETAILS=?, LONG_DETAILS=?, "
-                                + "PRICE=?, STOCK=? WHERE UPC = ?");
+                        + "PRICE=?, STOCK=? WHERE UPC = ?");
                 updateStatement.setString(1, product.getShortDetails());
                 updateStatement.setString(2, product.getLongDetails());
                 updateStatement.setBigDecimal(3, product.getPrice());

@@ -5,7 +5,10 @@
  */
 package wilcoxp3;
 
+import java.sql.Connection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,6 +16,16 @@ import java.util.List;
  */
 public class DatabaseUserDao implements DataAccessObject<User> {
 
+    Connection con;
+
+    DatabaseUserDao() {
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DatabaseUserDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @Override
     public List<User> readAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

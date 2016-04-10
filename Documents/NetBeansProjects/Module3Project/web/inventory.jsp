@@ -16,13 +16,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Inventory</title>
         <%
-            DataAccessObject<Product> productDao = (DataAccessObject<Product>) this.getServletContext().getAttribute("productBean");
+            DataAccessObject<Product> productDao = (DataAccessObject) this.getServletContext().getAttribute("productBean");
             if (productDao == null) {
                 productDao = DataAccessObjectFactory.getProductDao();
                 this.getServletContext().setAttribute("productBean", productDao);
             }
 
-            DataAccessObject<User> userDao = (DataAccessObject<User>) this.getServletContext().getAttribute("userBean");
+            DataAccessObject<User> userDao = (DataAccessObject) this.getServletContext().getAttribute("userBean");
             if (userDao == null) {
                 userDao = DataAccessObjectFactory.getUserDao();
                 this.getServletContext().setAttribute("userBean", userDao);
