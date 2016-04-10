@@ -34,7 +34,7 @@ public class InventoryServlet extends HttpServlet {
 
         if (req.getParameter("currentUser") == null
                 || !userDao.read(currentUser).isInventoryManager()) {
-            resp.sendRedirect("login.jsp");
+            resp.sendRedirect("login.jsp?denied=true");
         }
     }
 

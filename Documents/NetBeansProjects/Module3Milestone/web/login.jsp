@@ -29,5 +29,6 @@
         </form>
         <c:if test="${param.failed == 'true'}"><p>The username or password provided are not valid.</p></c:if>
         <c:if test="${param.logout == 'true'}"><p>Logout successful.</p></c:if>
+        <c:if test="${param.denied == 'true'}"><p>Access denied.</p></c:if>
     </body>
 </html>

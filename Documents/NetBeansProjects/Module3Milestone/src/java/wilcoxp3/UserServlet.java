@@ -29,7 +29,7 @@ public class UserServlet extends HttpServlet {
 
         if (req.getParameter("currentUser") == null
                 || !userDao.read(currentUser).isAdministrator()) {
-            resp.sendRedirect("login.jsp");
+            resp.sendRedirect("login.jsp?denied=true");
         }
     }
 
