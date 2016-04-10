@@ -98,7 +98,12 @@ public class DatabaseProductDao implements DataAccessObject<Product> {
                 PreparedStatement createStatement = con.prepareStatement(
                         "INSERT INTO PRODUCT (UPC, SHORT_DETAILS, LONG_DETAILS, "
                                 + "PRICE, STOCK) VALUES (?,?,?,?,?)");
-                
+                createStatement.setString(1, product.getUpc());
+                createStatement.setString(2, product.getShortDetails());
+                createStatement.setString(3, product.getLongDetails());
+                createStatement.setBigDecimal(4, product.getPrice());
+                createStatement.setInt(5, product.getStock());
+                createStatement.execute();
             } catch (SQLException ex) {
                 Logger.getLogger(DatabaseProductDao.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -106,13 +111,37 @@ public class DatabaseProductDao implements DataAccessObject<Product> {
     }
 
     @Override
-    public void update(Product entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(Product product) {
+        if (product != null && read(product.getUpc()) != null) {
+            try {
+                PreparedStatement updateStatement = con.prepareStatement(
+                        "UPDATE PRODUCT SET SHORT_DETAILS=?, LONG_DETAILS=?, "
+                                + "PRICE=?, STOCK=? WHERE UPC = ?");
+                updateStatement.setString(1, product.getShortDetails());
+                updateStatement.setString(2, product.getLongDetails());
+                updateStatement.setBigDecimal(3, product.getPrice());
+                updateStatement.setInt(4, product.getStock());
+                updateStatement.setString(5, product.getUpc());
+                updateStatement.execute();
+            } catch (SQLException ex) {
+                Logger.getLogger(DatabaseProductDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @Override
     public void delete(Object id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String upc = (String) id;
+        if (read(upc) != null) {
+            try {
+                PreparedStatement deleteStatement = con.prepareStatement(
+                        "DELETE FROM PRODUCT WHERE UPC = ?");
+                deleteStatement.setString(1, upc);
+                deleteStatement.execute();
+            } catch (SQLException ex) {
+                Logger.getLogger(DatabaseProductDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
 }

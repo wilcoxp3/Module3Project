@@ -19,7 +19,7 @@ public class DataAccessObjectFactory {
     }
 
     public static DataAccessObject<Product> getProductDao() {
-        return new FileProductDao();
+        return new DatabaseProductDao();
     }
 
 }

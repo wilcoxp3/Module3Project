@@ -38,7 +38,7 @@
                 <form action="inventory" method="POST">
                     <label>
                         <span>UPC</span>
-                        <input type="text" name="upc" value="${p.getUpc()}" readonly="readonly"/>
+                        <input type="text" name="upc" value="${p.upc}" readonly="readonly"/>
                     </label>
                     <label>
                         <span>Short Details</span>
