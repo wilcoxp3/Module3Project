@@ -35,7 +35,7 @@
                     </label>
                     <label>
                         <span>Password</span>
-                        <input type="password" name="password" value="${u.password}" />
+                        <input type="password" name="password"/>
                     </label>
                     <label>
                         <span>Administrator</span>
