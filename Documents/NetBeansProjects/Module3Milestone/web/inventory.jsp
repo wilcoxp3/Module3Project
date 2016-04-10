@@ -21,7 +21,7 @@
                 productDao = DataAccessObjectFactory.getProductDao();
                 this.getServletContext().setAttribute("productBean", productDao);
             }
-            
+
             DataAccessObject<User> userDao = (DataAccessObject<User>) this.getServletContext().getAttribute("userBean");
             if (userDao == null) {
                 userDao = DataAccessObjectFactory.getUserDao();
@@ -92,11 +92,12 @@
             </form>
         </div>
         <form action="inventory" method="post">
-            <c:set var="currentUser" value="${param.currentUser}"></c:set>
-            <c:if test="${currentUser != null && userBean.read(currentUser).isAdministrator()}">
-                <input type="submit" value="Manage Users" name="button" />
+            <c:if test="${sessionScope.currentUser != null 
+                          && userBean.read(currentUser.username).isAdministrator()}">
+                  <input type="submit" value="Manage Users" name="button" />
             </c:if>
             <input type="submit" value="Logout" name="button" />
         </form>
+
     </body>
 </html>

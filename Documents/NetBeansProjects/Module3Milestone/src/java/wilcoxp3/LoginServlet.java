@@ -23,24 +23,24 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        HttpSession httpSession = req.getSession();
         DataAccessObject<User> userDao = DataAccessObjectFactory.getUserDao();
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         boolean failed = true;
 
-        if (!username.equalsIgnoreCase("")
-                && !password.equals("")) {
+        if (username != null && password != null 
+                && !username.equalsIgnoreCase("") && !password.equals("")) {
             for (User u : userDao.readAll()) {
                 if (username.equalsIgnoreCase(u.getUsername())
                         && password.equals(u.getPassword())) {
-                    httpSession.setAttribute("currentUser", u);
+                    req.getSession().setAttribute("currentUser", u);
                     resp.sendRedirect("inventory.jsp");
                     failed = false;
                 }
             }
-        } else if (req.getParameter("logout").equals("true")) {
-            httpSession.setAttribute("currentUser", null);
+        } else if ("Logout".equals(req.getParameter("button"))) {
+            req.getSession().setAttribute("currentUser", null);
+            resp.sendRedirect("login.jsp?logout=true");
             failed = false;
         }
         if (failed == true) {

@@ -23,16 +23,16 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+
         DataAccessObject<User> userDao = DataAccessObjectFactory.getUserDao();
         String currentUser = req.getParameter("currentUser");
-        
+
         if (req.getParameter("currentUser") == null
                 || !userDao.read(currentUser).isAdministrator()) {
             resp.sendRedirect("login.jsp");
         }
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -56,15 +56,18 @@ public class UserServlet extends HttpServlet {
                 u.setPassword(password);
                 u.setRoles(roles);
                 userDao.create(u);
+                resp.sendRedirect("users.jsp");
                 break;
             case "Edit":
                 u.setUsername(username);
                 u.setPassword(password);
                 u.setRoles(roles);
                 userDao.update(u);
+                resp.sendRedirect("users.jsp");
                 break;
             case "Delete":
                 userDao.delete(username);
+                resp.sendRedirect("users.jsp");
                 break;
             case "Manage Inventory":
                 resp.sendRedirect("inventory.jsp");
@@ -73,7 +76,5 @@ public class UserServlet extends HttpServlet {
                 resp.sendRedirect("login.jsp?logout=true");
                 break;
         }
-
-        resp.sendRedirect("users.jsp");
     }
 }

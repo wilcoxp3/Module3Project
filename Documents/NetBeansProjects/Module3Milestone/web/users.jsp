@@ -78,11 +78,14 @@
         </div>
         <form>
             <c:set var="currentUser" value="${param.currentUser}"></c:set>
-            <c:if test="${currentUser != null && userBean.read(currentUser).isInventoryManager()}">
+            <c:if test="${currentUser != null && userBean.read(currentUser.username).isInventoryManager()}">
                 <input type="submit" value="Manage Inventory" name="button" />
             </c:if>
+        </form>
+        <form action="login" method="post">
             <input type="submit" value="Logout" name="button" />
         </form>
+
     </body>
 </html>
 

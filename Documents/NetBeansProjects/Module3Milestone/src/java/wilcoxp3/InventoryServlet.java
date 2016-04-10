@@ -28,10 +28,10 @@ public class InventoryServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+
         DataAccessObject<User> userDao = DataAccessObjectFactory.getUserDao();
         String currentUser = req.getParameter("currentUser");
-        
+
         if (req.getParameter("currentUser") == null
                 || !userDao.read(currentUser).isInventoryManager()) {
             resp.sendRedirect("login.jsp");
@@ -60,19 +60,21 @@ public class InventoryServlet extends HttpServlet {
         String priceInput = req.getParameter("price");
         String stockInput = req.getParameter("stock");
 
+        BigDecimal price;
+        Integer stock;
         try {
-            BigDecimal price = new BigDecimal(priceInput);
-        } catch (NumberFormatException e) {
+            price = new BigDecimal(priceInput);
+        } catch (NumberFormatException | NullPointerException e) {
             priceInput = "-999";
-        }
-        try {
-            Integer stock = new Integer(stockInput);
-        } catch (NumberFormatException e) {
-            stockInput = "-999";
+            price = new BigDecimal(priceInput);
         }
 
-        BigDecimal price = new BigDecimal(priceInput);
-        Integer stock = new Integer(stockInput);
+        try {
+            stock = new Integer(stockInput);
+        } catch (NumberFormatException | NullPointerException e) {
+            stockInput = "-999";
+            stock = new Integer(stockInput);
+        }
 
         switch (req.getParameter("button")) {
             case "Create":
@@ -82,6 +84,7 @@ public class InventoryServlet extends HttpServlet {
                 p.setPrice(price);
                 p.setStock(stock);
                 productDao.create(p);
+                resp.sendRedirect("inventory.jsp");
                 break;
             case "Edit":
                 p.setUpc(upc);
@@ -90,9 +93,11 @@ public class InventoryServlet extends HttpServlet {
                 p.setPrice(price);
                 p.setStock(stock);
                 productDao.update(p);
+                resp.sendRedirect("inventory.jsp");
                 break;
             case "Delete":
                 productDao.delete(upc);
+                resp.sendRedirect("inventory.jsp");
                 break;
             case "Manage Users":
                 resp.sendRedirect("users.jsp");
@@ -102,6 +107,6 @@ public class InventoryServlet extends HttpServlet {
                 break;
         }
 
-        resp.sendRedirect("inventory.jsp");
+        
     }
 }
