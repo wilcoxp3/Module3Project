@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -36,7 +35,7 @@ public class DatabaseUserDao implements DataAccessObject<User> {
             con = DriverManager.getConnection("jdbc:derby://localhost:1527/store;create=true");
             if (!con.getMetaData().getTables(null, null, "USER", null).next()) {
                 String createDml = "CREATE TABLE \"USER\" (USERNAME VARCHAR(25), "
-                        + "PASSWORD VARCHAR(500), ROLES VARCHAR(5000)";
+                        + "PASSWORD VARCHAR(500), ROLES VARCHAR(5000))";
                 PreparedStatement createStatement = con.prepareStatement(createDml);
                 createStatement.execute();
             }
@@ -56,7 +55,7 @@ public class DatabaseUserDao implements DataAccessObject<User> {
                 User user = new User();
                 user.setUsername(results.getString("USERNAME"));
                 user.setPassword(results.getString("PASSWORD"));
-                String[] roles = results.getString("LONG_DETAILS").split(",", 2);
+                String[] roles = results.getString("ROLES").split(",");
                 user.setRoles(Arrays.stream(roles).collect(Collectors.toSet()));
                 users.add(user);
             }
@@ -79,7 +78,7 @@ public class DatabaseUserDao implements DataAccessObject<User> {
                 user = new User();
                 user.setUsername(results.getString("USERNAME"));
                 user.setPassword(results.getString("PASSWORD"));
-                String[] roles = results.getString("LONG_DETAILS").split(",", 2);
+                String[] roles = results.getString("ROLES").split(",");
                 user.setRoles(Arrays.stream(roles).collect(Collectors.toSet()));
             }
         } catch (SQLException ex) {
@@ -126,7 +125,7 @@ public class DatabaseUserDao implements DataAccessObject<User> {
                     roles = roles + "," + User.INVENTORY_MANAGER;
                 }
                 updateStatement.setString(2, roles);
-                updateStatement.setString(3, roles);
+                updateStatement.setString(3, user.getUsername());
                 updateStatement.execute();
             } catch (SQLException ex) {
                 Logger.getLogger(DatabaseProductDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,7 +139,7 @@ public class DatabaseUserDao implements DataAccessObject<User> {
         if (read(username) != null) {
             try {
                 PreparedStatement deleteStatement = con.prepareStatement(
-                        "DELETE FROM \"USER\" WHERE UPC = ?");
+                        "DELETE FROM \"USER\" WHERE USERNAME = ?");
                 deleteStatement.setString(1, username);
                 deleteStatement.execute();
             } catch (SQLException ex) {

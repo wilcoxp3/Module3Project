@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
                 if (username.equalsIgnoreCase(u.getUsername())
                         && password.equals(u.getPassword())) {
                     req.getSession().setAttribute("currentUser", u);
-                    resp.sendRedirect("inventory.jsp");
+                    resp.sendRedirect("inventory");
                     failed = false;
                 }
             }

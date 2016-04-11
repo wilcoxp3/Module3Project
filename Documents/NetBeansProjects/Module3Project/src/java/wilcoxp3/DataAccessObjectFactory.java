@@ -15,7 +15,7 @@ public class DataAccessObjectFactory {
     }
 
     public static DataAccessObject<User> getUserDao() {
-        return new FileUserDao();
+        return new DatabaseUserDao();
     }
 
     public static DataAccessObject<Product> getProductDao() {

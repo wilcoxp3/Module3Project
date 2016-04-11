@@ -76,10 +76,10 @@
                 </div>
             </form>
         </div>
-        <form>
-            <c:set var="currentUser" value="${param.currentUser}"></c:set>
-            <c:if test="${currentUser != null && userBean.read(currentUser.username).isInventoryManager()}">
-                <input type="submit" value="Manage Inventory" name="button" />
+        <form action="users" method="post">
+            <c:if test="${sessionScope.currentUser != null 
+                          && userBean.read(currentUser.username).isInventoryManager()}">
+                  <input type="submit" value="Manage Inventory" name="button" />
             </c:if>
         </form>
         <form action="login" method="post">
