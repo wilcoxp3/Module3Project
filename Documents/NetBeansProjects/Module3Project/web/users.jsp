@@ -15,7 +15,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>User manager</title>
         <%
-            DataAccessObject<User> userDao = (DataAccessObject<User>) this.getServletContext().getAttribute("productBean");
+            DataAccessObject<User> userDao = (DataAccessObject) this.getServletContext().getAttribute("productBean");
             if (userDao == null) {
                 userDao = DataAccessObjectFactory.getUserDao();
                 this.getServletContext().setAttribute("userBean", userDao);
