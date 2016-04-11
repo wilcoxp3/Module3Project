@@ -56,21 +56,21 @@ public class UserServlet extends HttpServlet {
                 u.setPassword(password);
                 u.setRoles(roles);
                 userDao.create(u);
-                resp.sendRedirect("users");
+                resp.sendRedirect("users.jsp");
                 break;
             case "Edit":
                 u.setUsername(username);
                 u.setPassword(password);
                 u.setRoles(roles);
                 userDao.update(u);
-                resp.sendRedirect("users");
+                resp.sendRedirect("users.jsp");
                 break;
             case "Delete":
                 userDao.delete(username);
-                resp.sendRedirect("users");
+                resp.sendRedirect("users.jsp");
                 break;
             case "Manage Inventory":
-                resp.sendRedirect("inventory");
+                resp.sendRedirect("inventory.jsp");
                 break;
             case "Logout":
                 resp.sendRedirect("login.jsp?logout=true");

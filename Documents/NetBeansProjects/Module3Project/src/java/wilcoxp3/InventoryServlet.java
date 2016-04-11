@@ -84,7 +84,7 @@ public class InventoryServlet extends HttpServlet {
                 p.setPrice(price);
                 p.setStock(stock);
                 productDao.create(p);
-                resp.sendRedirect("inventory");
+                resp.sendRedirect("inventory.jsp");
                 break;
             case "Edit":
                 p.setUpc(upc);
@@ -93,14 +93,14 @@ public class InventoryServlet extends HttpServlet {
                 p.setPrice(price);
                 p.setStock(stock);
                 productDao.update(p);
-                resp.sendRedirect("inventory");
+                resp.sendRedirect("inventory.jsp");
                 break;
             case "Delete":
                 productDao.delete(upc);
-                resp.sendRedirect("inventory");
+                resp.sendRedirect("inventory.jsp");
                 break;
             case "Manage Users":
-                resp.sendRedirect("users");
+                resp.sendRedirect("users.jsp");
                 break;
             case "Logout":
                 resp.sendRedirect("login.jsp?logout=true");
